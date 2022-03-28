@@ -1,6 +1,70 @@
 # dell-dsucreateiso
 # Dell utilities
 
+Dell System Update (DSU)
+Starting with DSU 1.7 information on DSU is located at the following link:
+Dell technical resource
+Note: Starting with DSU 1.7, consent is required prior to installing public keys on target systems.
+Repository setup
+ChangeLog from previous repository: Here
+To configure the repository, use the following commands:
+1. curl -O https://linux.dell.com/repo/hardware/dsu/bootstrap.cgi
+2. bash bootstrap.cgi
+Note: Consent is required prior to installing public keys on target systems.
+
+DSU 1.8 Known Issue on RHEL 8.x OS
+Error: dsu: error while loading shared libraries: libssh2.so.1: cannot open shared object file: No such file or directory
+
+Workaround: ln -s $(find /usr/lib64 -name libssh* -type f) /usr/lib64/libssh2.so.1
+
+Note: The workaround enables DSU to run on the same host. To enable remote functionality libssh2 has to be installed. This dependency addressed in DSU 1.9
+Install DSU
+To install DSU using the repository, use the following command
+#yum install dell-system-update
+
+Install OMSA
+To install OMSA using this repository, use the following commands:
+Red Hat Enterprise Linux Servers
+#yum install srvadmin-all
+
+Please re-run repository setup commands to import the updated signature keys
+
+SUSE Linux Enterprise Servers
+#zypper install srvadmin-all
+
+OMSA services should be manually started after installing/upgrading OMSA using DSU repository
+Upgrade OMSA
+To upgrade OMSA using this repository, where an OMSA version is already installed in the system, use the following commands.
+Red Hat Enterprise Linux Servers
+#yum --disablerepo=* --enablerepo=dell-system-update_dependent upgrade
+
+SUSE Linux Enterprise Servers
+#zypper mr -da; zypper mr -e "dell-system-update_dependent" ; zypper update; zypper mr -ea;
+
+Note:-To update from local repository (custom), use the OMSA repository name instead of dell-system-update_dependent in the commands.
+          In case of zypper upgrade, if there are repositories disabled by you, this command sequence will enable the repositories. You have to disable the repositories again manually.
+Other supporting documents and links
+In addition to this guide, you can access the following guides available at dell.com/support/manuals.
+Dell Systems Management - OpenManage Software Support Matrix
+Dell OpenManage Server Administrator Installation Guide
+Dell OpenManage Server Administrator User's Guide
+Previous Dell Linux Repository : Click Here
+Supported Platforms : Click Here
+Note: DSU Ubuntu enablement is only available for 12G and 13G systems
+Sample Kickstart Files : Click Here
+ISO Generator Script : Click Here
+To get the complete list of options of DSU (On Microsoft Windows and Linux), use #dsu --help
+
+Support
+A good place for support for this repository is the linux-poweredge mailing list.
+
+
+File list
+Use the following links to browse the contents of the repository
+
+ OS independent
+ OS dependent
+
 <!DOCTYPE html>
 <html ng-app='myApp'>
 <head>
